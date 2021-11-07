@@ -58,6 +58,13 @@ describe('Trie', () => {
     expect(trie.find()).toHaveLength(0)
   })
 
+  it('should not find string', () => {
+    const word = 'car'
+    const trie = new Trie()
+    trie.insert(word)
+    expect(trie.find('bat')).toHaveLength(0)
+  })
+
   it('should find one thing', () => {
     const word = 'car'
     const trie = new Trie()
