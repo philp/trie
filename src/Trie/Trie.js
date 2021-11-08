@@ -8,7 +8,7 @@ class Trie {
   insert (word = '') {
     let node = this.root
 
-    for (const char of word) {
+    for (const char of word.toString()) {
       let nextNode = node.nextNodes[char]
 
       if (!nextNode) {
@@ -22,10 +22,29 @@ class Trie {
     node.isWordEnd = true
   }
 
+  /**
+   * Insert a set of texts. Can be a string, with each text defined by a newline
+   * delimiter, or an array of texts. Anything which is not a string will be
+   * converted to a string.
+   */
+  insertCorpus (corpus) {
+    let set = [corpus?.toString()]
+
+    if (typeof corpus === 'string') {
+      set = corpus.match(/[^\r\n]+/g) || []
+    } else if (Array.isArray(corpus)) {
+      set = corpus
+    }
+
+    set.forEach(text => this.insert(text))
+
+    return set
+  }
+
   contains (word) {
     let node = this.root
 
-    for (const char of word) {
+    for (const char of word.toString()) {
       const nextNode = node.nextNodes[char]
       if (!nextNode) return false
       node = nextNode
